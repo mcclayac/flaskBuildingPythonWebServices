@@ -25,3 +25,7 @@ sudo apt-get -y install libapache2-mod-wsgi-py3
 # Create a new virtualhost
 sudoedit /etc/apache2/sites-available/moi.conf
 
+------------------------------------
+python module1/helloWorld.py
+
+
