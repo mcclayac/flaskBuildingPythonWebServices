@@ -10,10 +10,20 @@ BBC_FEED = "http://feeds.bbci.co.uk/news/rss.xml"
 def get_news():
     feed = feedparser.parse(BBC_FEED)
     first_article = feed['entries'][0]
-    return render_template("home.html",
-                            title=first_article.get("title"),
-                            published = first_article.get("published"),
-                            summary = first_article.get("summary"))
+    articles = feed['entries']
+    # for a in articles:
+    #     print(a.get("title"))
+
+    return render_template("home.html", articles=feed['entries'])
+
+    # return " "
+
+
+    # return render_template("home.html",article=articles)
+
+                            # title=first_article.get("title"),
+                            # published = first_article.get("published"),
+                            # summary = first_article.get("summary"))
 
     # html = []
     # html.append("""<html><body>""")
