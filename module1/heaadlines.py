@@ -1,24 +1,40 @@
 from flask import Flask
 from flask import render_template
 import feedparser
+from flask import request
 
 app = Flask(__name__)
 
-BBC_FEED = "http://feeds.bbci.co.uk/news/rss.xml"
+# BBC_FEED = "http://feeds.bbci.co.uk/news/rss.xml"
+
+RSS_FEEDS = {'bbc': 'http://feeds.bbci.co.uk/news/rss.xml',
+             'cnn': 'http://rss.cnn.com/rss/edition.rss',
+             'fox': 'http://feeds.foxnews.com/foxnews/latest',
+             'iol': 'http://www.iol.co.za/cmlink/1.640',
+                'craiglist':'https://www.craigslist.org/about/best/all/index.rss',
+                'espn':'http://www.espn.com/espn/rss/news',
+                'espnnba':'http://www.espn.com/espn/rss/nba/news',
+                'foxnewsopionion':'https://www.foxnews.com/about/rss/'}
 
 @app.route("/")
 def get_news():
-    feed = feedparser.parse(BBC_FEED)
-    first_article = feed['entries'][0]
-    articles = feed['entries']
-    # for a in articles:
-    #     print(a.get("title"))
-
+    query = request.args.get("publication")
+    if not query or query.lower() not in RSS_FEEDS:
+        publication = "bbc"
+    else:
+        publication = query.lower()
+    feed = feedparser.parse(RSS_FEEDS[publication])
     return render_template("home.html", articles=feed['entries'])
 
+# def get_news():
+#     feed = feedparser.parse(BBC_FEED)
+#     first_article = feed['entries'][0]
+#     articles = feed['entries']
+#     # for a in articles:
+#     #     print(a.get("title"))
+#
+#     return render_template("home.html", articles=feed['entries'])
     # return " "
-
-
     # return render_template("home.html",article=articles)
 
                             # title=first_article.get("title"),
